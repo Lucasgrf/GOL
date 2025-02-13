@@ -41,7 +41,11 @@ public class Grid {
         int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
         int neighbors = 0;
+        //n = 1
 
+        //n = 2
+
+        //n = 3
         for (int i = 0; i < 8; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
@@ -51,6 +55,9 @@ public class Grid {
                 }
             }
         }
+        //n = 4
+
+        //n = 5
 
         System.out.println("Vizinhos de (" + x + "," + y + ") = " + neighbors);
     }

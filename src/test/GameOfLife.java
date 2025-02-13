@@ -27,6 +27,7 @@ public class GameOfLife {
             if (split.length == 2) {
                 String chave = split[0];
                 String valor = split[1];
+
                 switch (chave) {
                     case "w":
                         w = check.checkLimit(valor, limitToWidth);
