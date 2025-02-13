@@ -54,8 +54,7 @@ public class GameOfLife {
                         if (check.isPresentValue(num)) {
                             n = num;
                         }
-                        System.out.println((n == 3 ? "vizinhaça = " + n + " [Default]" :
-                                        "vizinhaça = " + n + " [Layout " + n + "]"));
+                        System.out.println(("vizinhaça = " + n + " [Layout " + n + "]"));
                         break;
                     case "p":
                         if (check.isValidPattern(valor, w)) {

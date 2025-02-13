@@ -61,4 +61,16 @@ public class Grid {
 
         System.out.println("Vizinhos de (" + x + "," + y + ") = " + neighbors);
     }
+
+    public String typeOfNeighborhood(int n){
+        return switch (n) {
+            case 1 -> "Jala University";
+            case 2 -> "Programming 1";
+            case 3 -> "Moore";
+            case 4 -> "Reverse";
+            case 5 -> "Custom Jala University";
+            default -> null;
+        };
+    }
+
 }
