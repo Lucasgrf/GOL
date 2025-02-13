@@ -1,7 +1,7 @@
 package dom;
 
 public class Check {
-    public static boolean isInteger(String s) {
+    public boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
             return true;
@@ -10,7 +10,7 @@ public class Check {
         }
     }
 
-    public static int checkLimit(String valor, int[] limitTo) {
+    public int checkLimit(String valor, int[] limitTo) {
         if (isInteger(valor)) {
             int num = Integer.parseInt(valor);
             for (int limit : limitTo) {
@@ -22,20 +22,20 @@ public class Check {
         return 0;
     }
 
-    public static int checkGenerations(String valor) {
+    public int checkGenerations(String valor) {
         return (isInteger(valor) && Integer.parseInt(valor) >= 0) ? Integer.parseInt(valor) : 0;
     }
 
-    public static int checkSpeed(String valor) {
+    public int checkSpeed(String valor) {
         return (isInteger(valor) && Integer.parseInt(valor) >= 250 && Integer.parseInt(valor) <= 1000)
                 ? Integer.parseInt(valor) : 0;
     }
 
-    public static boolean isPresentValue(int value) {
+    public boolean isPresentValue(int value) {
         return value > 0;
     }
 
-    public static boolean isValidPattern(String p, int maxColumns) {
+    public boolean isValidPattern(String p, int maxColumns) {
         String[] sections = p.split("#");
 
         for (String section : sections) {

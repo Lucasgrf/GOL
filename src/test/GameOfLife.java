@@ -13,6 +13,7 @@ public class GameOfLife {
         int[] typesOfLayout = {1, 2, 3, 4, 5};
         Grid grid;
         StringBuilder p = new StringBuilder();
+        Check check = new Check();
 
         List<String> parametrosFaltantes = new ArrayList<>();
         parametrosFaltantes.add("width");
@@ -28,37 +29,35 @@ public class GameOfLife {
                 String valor = split[1];
                 switch (chave) {
                     case "w":
-                        w = Check.checkLimit(valor, limitToWidth);
+                        w = check.checkLimit(valor, limitToWidth);
                         System.out.println(w > 0 ? "width = " + w : "width = invalido");
                         parametrosFaltantes.remove("width");
                         break;
                     case "h":
-                        h = Check.checkLimit(valor, limitToHeight);
+                        h = check.checkLimit(valor, limitToHeight);
                         System.out.println(h > 0 ? "height = " + h : "height = invalido");
                         parametrosFaltantes.remove("height");
                         break;
                     case "g":
-                        g = Check.checkGenerations(valor);
+                        g = check.checkGenerations(valor);
                         System.out.println(g > 0 ? "generations = " + g : "generations = invalido");
                         parametrosFaltantes.remove("generations");
                         break;
                     case "s":
-                        s = Check.checkSpeed(valor);
+                        s = check.checkSpeed(valor);
                         System.out.println(s > 0 ? "speed = " + s : "speed = invalido");
                         parametrosFaltantes.remove("speed");
                         break;
                     case "n":
-                        int num = Check.checkLimit(valor, typesOfLayout);
-                        if (Check.isPresentValue(num)) {
+                        int num = check.checkLimit(valor, typesOfLayout);
+                        if (check.isPresentValue(num)) {
                             n = num;
                         }
-                        System.out.println(n > 0 ?
-                                (n == 3 ? "vizinhaça = " + n + " [Default]" :
-                                        "vizinhaça = " + n + " [Layout " + n + "]") :
-                                "vizinhaça = invalido");
+                        System.out.println((n == 3 ? "vizinhaça = " + n + " [Default]" :
+                                        "vizinhaça = " + n + " [Layout " + n + "]"));
                         break;
                     case "p":
-                        if (Check.isValidPattern(valor, w)) {
+                        if (check.isValidPattern(valor, w)) {
                             p.append(valor.replace("\"", ""));
                             System.out.println("population = " + p);
                             parametrosFaltantes.remove("population");
