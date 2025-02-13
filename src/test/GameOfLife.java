@@ -11,7 +11,7 @@ public class GameOfLife {
         int[] limitToWidth = {10, 20, 30, 40, 80};
         int[] limitToHeight = {10, 20, 40};
         int[] typesOfLayout = {1, 2, 3, 4, 5};
-        Grid grid = null;
+        Grid grid;
         StringBuilder p = new StringBuilder();
 
         List<String> parametrosFaltantes = new ArrayList<>();
@@ -60,7 +60,7 @@ public class GameOfLife {
                     case "p":
                         if (Check.isValidPattern(valor, w)) {
                             p.append(valor.replace("\"", ""));
-                            System.out.println("population = " + p.toString());
+                            System.out.println("population = " + p);
                             parametrosFaltantes.remove("population");
                         } else {
                             System.out.println("population = invalido");
