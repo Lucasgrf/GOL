@@ -37,16 +37,58 @@ public class Grid {
         }
     }
 
-    public void getNeighbors(int x, int y) {
-        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
+    public void getNeighbors(int x, int y, int layout) {
+        int[] dx, dy;
         int neighbors = 0;
-        //n = 1
+        String layoutName = typeOfNeighborhood(layout);
 
-        //n = 2
+        if (layoutName == null) {
+            System.out.printf("Layout inválido! \nEscolha um número entre 1 e 5.");
+            return;
+        }
 
-        //n = 3
-        for (int i = 0; i < 8; i++) {
+        /*
+        {0, 1},    Direita
+        {1, 0},    Abaixo
+        {0, -1},   Esquerda
+        {-1, 0},   Acima
+        {-1, -1},  Superior Esquerdo
+        {-1, 1},   Superior Direito
+        {1, -1},   Inferior Esquerdo
+        {1, 1}     Inferior Direito
+         */
+
+        switch (layout) {
+            case 1:
+                dx = new int[]{0, 0, -1, 1};
+                dy = new int[]{-1, 1, 0, 0};
+                break;
+
+            case 2:
+                dx = new int[]{0, 0, -1, 1, 1, -1};
+                dy = new int[]{-1, 1, 0, 0, -1, 1};
+                break;
+
+            case 3:
+                dx = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
+                dy = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
+                break;
+
+            case 4:
+                dx = new int[]{-1, -1, 1, 1};
+                dy = new int[]{-1, 1, -1, 1};
+                break;
+
+            case 5:
+                dx = new int[]{-1, -1, 1, 1, 0, 0};
+                dy = new int[]{-1, 1, -1, 1, -1, 1};
+                break;
+
+            default:
+                return;
+        }
+
+        for (int i = 0; i < dx.length; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
             if (nx >= 0 && nx < line && ny >= 0 && ny < column) {
@@ -55,14 +97,11 @@ public class Grid {
                 }
             }
         }
-        //n = 4
 
-        //n = 5
-
-        System.out.println("Vizinhos de (" + x + "," + y + ") = " + neighbors);
+        System.out.println("Vizinhos (" + layoutName + ") de (" + x + "," + y + ") = " + neighbors);
     }
 
-    public String typeOfNeighborhood(int n){
+    public String typeOfNeighborhood(int n) {
         return switch (n) {
             case 1 -> "Jala University";
             case 2 -> "Programming 1";
@@ -72,5 +111,4 @@ public class Grid {
             default -> null;
         };
     }
-
 }
