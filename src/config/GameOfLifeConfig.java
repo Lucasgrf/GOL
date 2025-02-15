@@ -4,7 +4,13 @@ import util.Check;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A classe {@code GameOfLifeConfig} é responsável por processar e validar os parâmetros de configuração
+ * fornecidos via linha de comando para o jogo Game of Life. Ela gerencia parâmetros como largura, altura,
+ * número de gerações, velocidade, tipo de vizinhança e o padrão inicial de população.
+ */
 public class GameOfLifeConfig {
+
     private int width = 0;
     private int height = 0;
     private int generations = 0;
@@ -12,6 +18,12 @@ public class GameOfLifeConfig {
     private int layout = 3;
     private StringBuilder population = new StringBuilder();
 
+    /**
+     * Construtor que processa os parâmetros fornecidos via linha de comando e valida suas configurações.
+     *
+     * @param args os parâmetros fornecidos via linha de comando no formato chave=valor, onde cada chave
+     *             representa um parâmetro do jogo (ex.: "w", "h", "g", etc.).
+     */
     public GameOfLifeConfig(String[] args) {
         Check check = new Check();
         List<String> missingParams = new ArrayList<>();
@@ -62,7 +74,7 @@ public class GameOfLifeConfig {
                             population.append(value.replace("\"", ""));
                             System.out.println("population = " + population);
                             missingParams.remove("population");
-                        }else{
+                        } else {
                             System.out.println("population = invalido");
                         }
                         break;
@@ -82,26 +94,56 @@ public class GameOfLifeConfig {
         }
     }
 
+    /**
+     * Retorna a largura da grid do jogo.
+     *
+     * @return a largura da grid.
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Retorna a altura da grid do jogo.
+     *
+     * @return a altura da grid.
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Retorna o número de gerações a serem simuladas.
+     *
+     * @return o número de gerações.
+     */
     public int getGenerations() {
         return generations;
     }
 
+    /**
+     * Retorna a velocidade de atualização entre as gerações, em milissegundos.
+     *
+     * @return a velocidade de atualização.
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Retorna o tipo de layout de vizinhança selecionado para o jogo.
+     *
+     * @return o tipo de vizinhança (1 a 5).
+     */
     public int getLayout() {
         return layout;
     }
 
+    /**
+     * Retorna o padrão de população inicial como uma string.
+     *
+     * @return o padrão de população.
+     */
     public String getPopulation() {
         return population.toString();
     }
