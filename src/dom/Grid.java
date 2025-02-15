@@ -2,7 +2,8 @@ package dom;
 
 /**
  * Representa uma grade para o jogo Game of Life.
- * A grade é composta por células vivas ou mortas, e permite inicializar, atualizar e exibir o estado das células.
+ * A grade é composta por células vivas ou mortas, permitindo inicializar,
+ * atualizar e exibir o estado das células.
  */
 public class Grid {
     private int line, column;
@@ -11,7 +12,7 @@ public class Grid {
     /**
      * Constrói uma nova instância de Grid com as dimensões especificadas.
      *
-     * @param line Número de linhas da grade.
+     * @param line   Número de linhas da grade.
      * @param column Número de colunas da grade.
      */
     public Grid(int line, int column) {
@@ -22,13 +23,22 @@ public class Grid {
 
     /**
      * Inicializa a grade com um padrão fornecido como uma string.
-     * O padrão é uma sequência de linhas representadas por '1' (viva) e '0' (morta), separadas por '#'.
+     * O padrão é uma sequência de linhas representadas por '1' (viva) e '0' (morta),
+     * separadas por '#'. Caso o padrão exceda o tamanho da grade,
+     * uma mensagem de erro é exibida.
      *
      * @param pattern String representando o padrão inicial da grade.
      */
     public void initializeGrid(String pattern) {
         String[] rows = pattern.split("#");
-        grid = new Cell[line][column];
+
+        if (rows.length > line || rows[0].length() > column) {
+            System.out.println("Erro: O padrão é maior que o tamanho da grid.");
+            return;
+        }
+
+        int startRow = Math.max(0, (line - rows.length) / 2);
+        int startCol = Math.max(0, (column - rows[0].length()) / 2);
 
         for (int i = 0; i < line; i++) {
             for (int j = 0; j < column; j++) {
@@ -36,12 +46,9 @@ public class Grid {
             }
         }
 
-        int startRow = (line - rows.length) / 2;
-        int startCol = (column - rows[0].length()) / 2;
-
-        for (int i = 0; i < rows.length && (startRow + i) < line; i++) {
+        for (int i = 0; i < rows.length; i++) {
             char[] cells = rows[i].toCharArray();
-            for (int j = 0; j < cells.length && (startCol + j) < column; j++) {
+            for (int j = 0; j < cells.length; j++) {
                 grid[startRow + i][startCol + j] = new Cell(cells[j] == '1');
             }
         }
@@ -50,10 +57,11 @@ public class Grid {
     /**
      * Retorna o número de vizinhos vivos de uma célula dada, de acordo com o layout de vizinhança.
      *
-     * @param x A coordenada da linha da célula.
-     * @param y A coordenada da coluna da célula.
-     * @param layout O tipo de layout de vizinhança (1, 2, 3, 4, 5).
-     * @return O número de vizinhos vivos.
+     * @param x      A coordenada da linha da célula.
+     * @param y      A coordenada da coluna da célula.
+     * @param layout O tipo de layout de vizinhança (1 a 5), que define quais células
+     *               ao redor são consideradas vizinhas.
+     * @return O número de vizinhos vivos da célula especificada.
      */
     public int getNeighbors(int x, int y, int layout) {
         int[] dx, dy;
@@ -122,9 +130,13 @@ public class Grid {
 
     /**
      * Atualiza o estado da grade de acordo com o layout de vizinhança especificado.
-     * As células vivas ou mortas são atualizadas conforme as regras do jogo.
+     * As células vivas ou mortas são atualizadas conforme as regras do jogo:
+     * <ul>
+     *   <li>Células vivas permanecem vivas com 2 ou 3 vizinhos vivos.</li>
+     *   <li>Células mortas tornam-se vivas com exatamente 3 vizinhos vivos.</li>
+     * </ul>
      *
-     * @param layout O tipo de layout de vizinhança (1, 2, 3, 4, 5).
+     * @param layout O tipo de layout de vizinhança (1 a 5).
      */
     public void updateGrid(int layout) {
         for (int x = 0; x < line; x++) {
@@ -148,7 +160,8 @@ public class Grid {
     }
 
     /**
-     * Exibe a grade no console, representando as células vivas com "1" e as células mortas com "0".
+     * Exibe a grade no console, representando as células vivas com "1"
+     * e as células mortas com "0".
      */
     public void printGrid() {
         for (int x = 0; x < line; x++) {

@@ -8,16 +8,22 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Alguns modelos famosos do GOL:
-(Blinker) 000#111#000
-(Toad) 0000#0111#1110#0000
-(Beacon) 1100#1100#0011#0011
-(Glider) 010#001#111
-(Lightweight Spaceship) 00110#10001#00001#10010
-*/
-
-
+/**
+ * A classe {@code GameOfLife} é a aplicação principal para executar o jogo da vida (Game of Life).
+ * Ela inicializa a grid, recebe parâmetros de configuração via linha de comando e renderiza as gerações
+ * do jogo com base nas entradas fornecidas. A interface gráfica usa o Swing para renderizar o jogo.
+ */
 public class GameOfLife {
+
+    /**
+     * O método principal que executa o jogo da vida, inicializando os parâmetros e realizando o processamento das gerações.
+     *
+     * <p>O método recebe argumentos de linha de comando para configurar parâmetros como largura, altura, número de
+     * gerações, velocidade, tipo de vizinhança e padrão da população. A partir desses parâmetros, o jogo é iniciado
+     * e renderizado até o número especificado de gerações.</p>
+     *
+     * @param args os parâmetros de linha de comando no formato chave=valor para configurar o jogo.
+     */
     public static void main(String[] args) {
         int w = 0, h = 0, g = 0, s = 0, n = 3;
         int[] limitToWidth = {10, 20, 30, 40, 80};
@@ -40,6 +46,7 @@ public class GameOfLife {
                 String chave = split[0];
                 String valor = split[1];
 
+                // Processamento dos parâmetros fornecidos via linha de comando
                 switch (chave) {
                     case "w":
                         w = check.checkLimit(valor, limitToWidth);
@@ -83,10 +90,8 @@ public class GameOfLife {
                 }
             }
         }
-        if (n == 3) {
-            System.out.println("vizinhaça = " + n + " [Default]");
-        }
 
+        // Verifica se todos os parâmetros obrigatórios foram fornecidos
         if (!parametrosFaltantes.isEmpty()) {
             System.out.println("Parâmetros não informados:");
             for (String param : parametrosFaltantes) {
@@ -94,10 +99,12 @@ public class GameOfLife {
             }
         }
 
+        // Inicializa a grid e a interface gráfica
         if (w > 0 && h > 0 && !p.isEmpty()) {
             grid = new Grid(h, w);
             grid.initializeGrid(p.toString());
 
+            // Configura a interface gráfica com o Swing
             JFrame frame = new JFrame("Game of Life");
             SwingRenderer renderer = new SwingRenderer(grid);
             frame.add(renderer);
@@ -106,13 +113,26 @@ public class GameOfLife {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
 
+            // Atualiza a renderização da primeira geração
             renderer.update();
 
-            for (int gen = 0; gen < g; gen++) {
-                System.out.println("Generation " + (gen + 1) + ":");
-                grid.updateGrid(n);
-                renderer.update(); // Atualizar a visualização a cada geração
+            // Adiciona um pequeno delay para exibir a geração inicial
+            if (s > 0) {
+                try {
+                    Thread.sleep(s);  // Espera o tempo de delay configurado
+                } catch (InterruptedException e) {
+                    System.err.println("A execução foi interrompida: " + e.getMessage());
+                    Thread.currentThread().interrupt();
+                }
+            }
 
+            // Processa as gerações
+            for (int gen = 0; gen < g; gen++) {
+                System.out.println("Generation " + (gen) + ":");
+                grid.updateGrid(n);
+                renderer.update(); // Atualiza a visualização a cada geração
+
+                // Aguarda a velocidade definida, se válida
                 if (s > 0) {
                     try {
                         Thread.sleep(s);
