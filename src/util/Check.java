@@ -1,4 +1,4 @@
-package dom;
+package util;
 
 public class Check {
     public boolean isInteger(String s) {

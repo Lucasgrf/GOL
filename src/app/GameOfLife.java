@@ -1,9 +1,21 @@
-package test;
+package app;
 
-import dom.Check;
+import util.Check;
 import dom.Grid;
+import render.SwingRenderer;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/* Alguns modelos famosos do GOL:
+(Blinker) 000#111#000
+(Toad) 0000#0111#1110#0000
+(Beacon) 1100#1100#0011#0011
+(Glider) 010#001#111
+(Lightweight Spaceship) 00110#10001#00001#10010
+*/
+
 
 public class GameOfLife {
     public static void main(String[] args) {
@@ -74,7 +86,7 @@ public class GameOfLife {
         if (n == 3) {
             System.out.println("vizinhaça = " + n + " [Default]");
         }
-        
+
         if (!parametrosFaltantes.isEmpty()) {
             System.out.println("Parâmetros não informados:");
             for (String param : parametrosFaltantes) {
@@ -85,7 +97,33 @@ public class GameOfLife {
         if (w > 0 && h > 0 && !p.isEmpty()) {
             grid = new Grid(h, w);
             grid.initializeGrid(p.toString());
-            System.out.println("Grid inicializada com sucesso!");
+
+            JFrame frame = new JFrame("Game of Life");
+            SwingRenderer renderer = new SwingRenderer(grid);
+            frame.add(renderer);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+
+            renderer.update();
+
+            for (int gen = 0; gen < g; gen++) {
+                System.out.println("Generation " + (gen + 1) + ":");
+                grid.updateGrid(n);
+                renderer.update(); // Atualizar a visualização a cada geração
+
+                if (s > 0) {
+                    try {
+                        Thread.sleep(s);
+                    } catch (InterruptedException e) {
+                        System.err.println("A execução foi interrompida: " + e.getMessage());
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    System.out.println("Valor de velocidade inválido. A velocidade deve ser um número positivo.");
+                }
+            }
         } else {
             System.out.println("Erro ao inicializar a grid. Verifique os parâmetros.");
         }
