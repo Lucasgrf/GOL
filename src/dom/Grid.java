@@ -129,14 +129,27 @@ public class Grid {
     }
 
     /**
-     * Atualiza o estado da grade de acordo com o layout de vizinhança especificado.
-     * As células vivas ou mortas são atualizadas conforme as regras do jogo:
+     * Atualiza o estado da grade conforme as regras do jogo Game of Life,
+     * utilizando o layout de vizinhança especificado.
+     * <p>
+     * As regras aplicadas são:
      * <ul>
-     *   <li>Células vivas permanecem vivas com 2 ou 3 vizinhos vivos.</li>
-     *   <li>Células mortas tornam-se vivas com exatamente 3 vizinhos vivos.</li>
+     *   <li>Qualquer célula viva com menos de 2 vizinhos vivos morre (solidão).</li>
+     *   <li>Qualquer célula viva com 2 ou 3 vizinhos vivos sobrevive.</li>
+     *   <li>Qualquer célula viva com mais de 3 vizinhos vivos morre (superpopulação).</li>
+     *   <li>Qualquer célula morta com exatamente 3 vizinhos vivos torna-se viva (reprodução).</li>
      * </ul>
+     * Após determinar o próximo estado de cada célula, o estado atual é atualizado.
      *
-     * @param layout O tipo de layout de vizinhança (1 a 5).
+     * @param layout O tipo de layout de vizinhança (1 a 5). Cada valor define um
+     *               padrão diferente de células vizinhas a serem consideradas:
+     *               <ul>
+     *                  <li>1 - Jala University (4 vizinhos ortogonais)</li>
+     *                  <li>2 - Programming 1 (6 vizinhos hexagonais)</li>
+     *                  <li>3 - Moore (8 vizinhos ao redor)</li>
+     *                  <li>4 - Reverse (4 vizinhos diagonais)</li>
+     *                  <li>5 - Custom Jala University (6 vizinhos mistos)</li>
+     *               </ul>
      */
     public void updateGrid(int layout) {
         for (int x = 0; x < line; x++) {
@@ -144,20 +157,30 @@ public class Grid {
                 int neighbors = getNeighbors(x, y, layout);
                 boolean isAlive = grid[x][y].isAlive();
 
-                if (isAlive) {
-                    grid[x][y].setNextState(neighbors >= 2 && neighbors <= 3);
-                } else if (neighbors == 3) {
+                if (isAlive && (neighbors < 2 || neighbors > 3)) {
+                    // Regra 1 e Regra 3: Solidão ou Superpopulação
+                    grid[x][y].setNextState(false);
+                } else if (isAlive && (neighbors == 2 || neighbors == 3)) {
+                    // Regra 2: Sobrevive
                     grid[x][y].setNextState(true);
+                } else if (!isAlive && neighbors == 3) {
+                    // Regra 4: Reprodução
+                    grid[x][y].setNextState(true);
+                } else {
+                    // Permanece morta
+                    grid[x][y].setNextState(false);
                 }
             }
         }
 
+        // Atualiza o estado das células para a próxima geração
         for (int x = 0; x < line; x++) {
             for (int y = 0; y < column; y++) {
                 grid[x][y].updateState();
             }
         }
     }
+
 
     /**
      * Exibe a grade no console, representando as células vivas com "1"
