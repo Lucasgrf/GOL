@@ -20,6 +20,7 @@ O **Game of Life** é uma simulação baseada em autômatos celulares criada por
   - `Cell`: Representa cada célula na grid.
   - `SwingRenderer`: Renderiza a grid utilizando Swing.
 
+
 ---
 
 ## Regras do Jogo
@@ -35,7 +36,7 @@ O **Game of Life** é uma simulação baseada em autômatos celulares criada por
 
 Os parâmetros podem ser passados via linha de comando no seguinte formato:
 
-java app.GameOfLife w=<largura da matriz> h=<altura da matriz> g=<geração> s=<velocidade da geração> n=<tipo de layout, padrão é 3> p="<população inicial>"
+#### java app.GameOfLife w=<largura, matriz> h=<altura, matriz> g=<número de gerações> s=<velocidade da geração> n=<tipo de layout, padrão é 3> p="<população inicial>"
 
 
 ### Descrição dos Parâmetros
@@ -57,6 +58,12 @@ java app.GameOfLife w=<largura da matriz> h=<altura da matriz> g=<geração> s=<
 
 ## Exemplos de Execução
 
+#### Compile e depois execute passando os paramêtros
+
 ```bash
+javac app/GameOfLife.java
+
 java app.GameOfLife w=20 h=10 g=50 s=500 n=3 p="010#101#000"
+
+
 
