@@ -35,7 +35,7 @@ O **Game of Life** é uma simulação baseada em autômatos celulares criada por
 
 Os parâmetros podem ser passados via linha de comando no seguinte formato:
 
-java app.GameOfLife w=<width> h=<height> g=<generations> s=<speed> n=<layout> p="<population>"
+java app.GameOfLife w=<largura> h=<altura> g=<geração> s=<velocidade da geração> n=<tipo de layout, padrão é 3> p="<população inicial>"
 
 
 ### Descrição dos Parâmetros
