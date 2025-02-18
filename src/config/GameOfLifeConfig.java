@@ -34,54 +34,59 @@ public class GameOfLifeConfig {
         missingParams.add("speed");
         missingParams.add("population");
 
-        for (String arg : args) {
-            String[] split = arg.split("=", 2);
-            if (split.length == 2) {
-                String key = split[0];
-                String value = split[1];
+        if(args.length == 0) {
+            GameOfLifeRandomizer randomizer = new GameOfLifeRandomizer(width,height,generations,speed,layout,population);
+        }else {
 
-                // Processar parâmetros via linha de comando
-                switch (key) {
-                    case "w":
-                        width = check.limit(value, new int[]{10, 20, 30, 40, 80});
-                        System.out.println(width > 0 ? "width = " + width : "width = invalido");
-                        missingParams.remove("width");
-                        break;
-                    case "h":
-                        height = check.limit(value, new int[]{10, 20, 40});
-                        System.out.println(height > 0 ? "height = " + height : "height = invalido");
-                        missingParams.remove("height");
-                        break;
-                    case "g":
-                        generations = check.generations(value);
-                        System.out.println(generations > 0 ? "generations = " + generations : "generations = invalido");
-                        missingParams.remove("generations");
-                        break;
-                    case "s":
-                        speed = check.speed(value);
-                        System.out.println(speed > 0 ? "speed = " + speed : "speed = invalido");
-                        missingParams.remove("speed");
-                        break;
-                    case "n":
-                        int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
-                        if (check.isPresentValue(lay)) {
-                            layout = lay;
-                        }
+            for (String arg : args) {
+                String[] split = arg.split("=", 2);
+                if (split.length == 2) {
+                    String key = split[0];
+                    String value = split[1];
 
-                        System.out.println(("vizinhaça = " + layout + " [Layout " + layout + "]"));
-                        break;
-                    case "p":
-                        if (check.isValidPattern(value, width)) {
-                            population.append(value.replace("\"", ""));
-                            System.out.println("population = " + population);
-                            missingParams.remove("population");
-                        } else {
-                            System.out.println("population = invalido");
-                        }
-                        break;
-                    default:
-                        System.out.println("Argumento desconhecido: " + key);
-                        break;
+                    // Processar parâmetros via linha de comando
+                    switch (key) {
+                        case "w":
+                            width = check.limit(value, new int[]{10, 20, 30, 40, 80});
+                            System.out.println(width > 0 ? "width = " + width : "width = invalido");
+                            missingParams.remove("width");
+                            break;
+                        case "h":
+                            height = check.limit(value, new int[]{10, 20, 40});
+                            System.out.println(height > 0 ? "height = " + height : "height = invalido");
+                            missingParams.remove("height");
+                            break;
+                        case "g":
+                            generations = check.generations(value);
+                            System.out.println(generations > 0 ? "generations = " + generations : "generations = invalido");
+                            missingParams.remove("generations");
+                            break;
+                        case "s":
+                            speed = check.speed(value);
+                            System.out.println(speed > 0 ? "speed = " + speed : "speed = invalido");
+                            missingParams.remove("speed");
+                            break;
+                        case "n":
+                            int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
+                            if (check.isPresentValue(lay)) {
+                                layout = lay;
+                            }
+
+                            System.out.println(("vizinhaça = " + layout + " [Layout " + layout + "]"));
+                            break;
+                        case "p":
+                            if (check.isValidPattern(value, width)) {
+                                population.append(value.replace("\"", ""));
+                                System.out.println("population = " + population);
+                                missingParams.remove("population");
+                            } else {
+                                System.out.println("population = invalido");
+                            }
+                            break;
+                        default:
+                            System.out.println("Argumento desconhecido: " + key);
+                            break;
+                    }
                 }
             }
         }
