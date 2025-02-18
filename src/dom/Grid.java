@@ -66,11 +66,6 @@ public class Grid {
     public int getNeighbors(int x, int y, int layout) {
         int[] dx, dy;
         int neighbors = 0;
-        String layoutName = typeOfNeighborhood(layout);
-
-        if (layoutName == null) {
-            return 0;
-        }
 
         switch (layout) {
             case 1 -> {
@@ -90,8 +85,8 @@ public class Grid {
                 dy = new int[]{-1, 1, -1, 1};
             }
             case 5 -> {
-                dx = new int[]{-1, -1, 1, 1, 0, 0};
-                dy = new int[]{-1, 1, -1, 1, -1, 1};
+                dx = new int[]{-1, -1, 1, 1, -1, 1};
+                dy = new int[]{-1, 1, -1, 1, 0, 0};
             }
             default -> {
                 return 0;
@@ -117,7 +112,7 @@ public class Grid {
      * @param n O código do layout (1 a 5).
      * @return O nome do layout, ou null se o código não for válido.
      */
-    public String typeOfNeighborhood(int n) {
+    public static String typeOfNeighborhood(int n) {
         return switch (n) {
             case 1 -> "Jala University";
             case 2 -> "Programming 1";

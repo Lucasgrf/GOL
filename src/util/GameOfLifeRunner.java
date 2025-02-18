@@ -28,7 +28,7 @@ public class GameOfLifeRunner {
      * processa as gerações e atualiza a renderização a cada nova geração.
      */
     public void run() {
-        if (config.getWidth() > 0 && config.getHeight() > 0 && !config.getPopulation().isEmpty()) {
+        if (config.getWidth() > 0 && config.getHeight() > 0 && !config.getPopulation().isEmpty() && config.getLayout() > 0) {
             Grid grid = new Grid(config.getHeight(), config.getWidth());
             grid.initializeGrid(config.getPopulation());
 
