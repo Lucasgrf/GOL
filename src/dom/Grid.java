@@ -85,8 +85,8 @@ public class Grid {
                 dy = new int[]{-1, 1, -1, 1};
             }
             case 5 -> {
-                dx = new int[]{-1, -1, 1, 1, 0, 0};
-                dy = new int[]{-1, 1, -1, 1, -1, 1};
+                dx = new int[]{-1, -1, 1, 1, -1, 1};
+                dy = new int[]{-1, 1, -1, 1, 0, 0};
             }
             default -> {
                 return 0;
