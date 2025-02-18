@@ -1,6 +1,7 @@
 package config;
 
 import util.Check;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,27 +43,27 @@ public class GameOfLifeConfig {
                 // Processar parâmetros via linha de comando
                 switch (key) {
                     case "w":
-                        width = check.checkLimit(value, new int[]{10, 20, 30, 40, 80});
+                        width = check.limit(value, new int[]{10, 20, 30, 40, 80});
                         System.out.println(width > 0 ? "width = " + width : "width = invalido");
                         missingParams.remove("width");
                         break;
                     case "h":
-                        height = check.checkLimit(value, new int[]{10, 20, 40});
+                        height = check.limit(value, new int[]{10, 20, 40});
                         System.out.println(height > 0 ? "height = " + height : "height = invalido");
                         missingParams.remove("height");
                         break;
                     case "g":
-                        generations = check.checkGenerations(value);
+                        generations = check.generations(value);
                         System.out.println(generations > 0 ? "generations = " + generations : "generations = invalido");
                         missingParams.remove("generations");
                         break;
                     case "s":
-                        speed = check.checkSpeed(value);
+                        speed = check.speed(value);
                         System.out.println(speed > 0 ? "speed = " + speed : "speed = invalido");
                         missingParams.remove("speed");
                         break;
                     case "n":
-                        int lay = check.checkLimit(value, new int[]{1, 2, 3, 4, 5});
+                        int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
                         if (check.isPresentValue(lay)) {
                             layout = lay;
                         }

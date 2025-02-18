@@ -28,7 +28,7 @@ public class Check {
      * @param limitTo um array de inteiros que define os limites válidos
      * @return o valor fornecido se ele estiver dentro dos limites, caso contrário, retorna 0
      */
-    public int checkLimit(String valor, int[] limitTo) {
+    public int limit(String valor, int[] limitTo) {
         if (isInteger(valor)) {
             int num = Integer.parseInt(valor);
             for (int limit : limitTo) {
@@ -46,7 +46,7 @@ public class Check {
      * @param valor a string representando o valor de gerações
      * @return o valor de gerações se for válido, caso contrário, retorna 0
      */
-    public int checkGenerations(String valor) {
+    public int generations(String valor) {
         return (isInteger(valor) && Integer.parseInt(valor) >= 0) ? Integer.parseInt(valor) : 0;
     }
 
@@ -56,7 +56,7 @@ public class Check {
      * @param valor a string representando o valor da velocidade
      * @return o valor da velocidade se for válido, caso contrário, retorna 0
      */
-    public int checkSpeed(String valor) {
+    public int speed(String valor) {
         return (isInteger(valor) && Integer.parseInt(valor) >= 250 && Integer.parseInt(valor) <= 1000)
                 ? Integer.parseInt(valor) : 0;
     }
