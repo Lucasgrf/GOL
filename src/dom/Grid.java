@@ -66,11 +66,6 @@ public class Grid {
     public int getNeighbors(int x, int y, int layout) {
         int[] dx, dy;
         int neighbors = 0;
-        String layoutName = typeOfNeighborhood(layout);
-
-        if (layoutName == null) {
-            return 0;
-        }
 
         switch (layout) {
             case 1 -> {

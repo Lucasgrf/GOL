@@ -4,6 +4,7 @@ import util.Check;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A classe {@code GameOfLifeConfig} é responsável por processar e validar os parâmetros de configuração
@@ -18,6 +19,7 @@ public class GameOfLifeConfig {
     private int speed = 0;
     private int layout = 3;
     private StringBuilder population = new StringBuilder();
+    Random rand = new Random();
 
     /**
      * Construtor que processa os parâmetros fornecidos via linha de comando e valida suas configurações.
@@ -34,66 +36,75 @@ public class GameOfLifeConfig {
         missingParams.add("speed");
         missingParams.add("population");
 
-        if(args.length == 0) {
-            GameOfLifeRandomizer randomizer = new GameOfLifeRandomizer(width,height,generations,speed,layout,population);
-        }else {
+        for (String arg : args) {
+            String[] split = arg.split("=", 2);
+            if (split.length == 2) {
+                String key = split[0];
+                String value = split[1];
 
-            for (String arg : args) {
-                String[] split = arg.split("=", 2);
-                if (split.length == 2) {
-                    String key = split[0];
-                    String value = split[1];
-
-                    // Processar parâmetros via linha de comando
-                    switch (key) {
-                        case "w":
-                            width = check.limit(value, new int[]{10, 20, 30, 40, 80});
-                            System.out.println(width > 0 ? "width = " + width : "width = invalido");
-                            missingParams.remove("width");
-                            break;
-                        case "h":
-                            height = check.limit(value, new int[]{10, 20, 40});
-                            System.out.println(height > 0 ? "height = " + height : "height = invalido");
-                            missingParams.remove("height");
-                            break;
-                        case "g":
-                            generations = check.generations(value);
-                            System.out.println(generations > 0 ? "generations = " + generations : "generations = invalido");
-                            missingParams.remove("generations");
-                            break;
-                        case "s":
-                            speed = check.speed(value);
-                            System.out.println(speed > 0 ? "speed = " + speed : "speed = invalido");
-                            missingParams.remove("speed");
-                            break;
-                        case "n":
-                            int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
-                            if (check.isPresentValue(lay)) {
-                                layout = lay;
+                // Processar parâmetros via linha de comando
+                switch (key) {
+                    case "w":
+                        width = check.limit(value, new int[]{10, 20, 30, 40, 80});
+                        System.out.println(width > 0 ? "width = " + width : "width = invalid | please type 10,20,30,40 or 80.");
+                        missingParams.remove("width");
+                        break;
+                    case "h":
+                        height = check.limit(value, new int[]{10, 20, 40});
+                        System.out.println(height > 0 ? "height = " + height : "height = invalid | please type 10,20 or 40.");
+                        missingParams.remove("height");
+                        break;
+                    case "g":
+                        generations = check.generations(value);
+                        System.out.println(generations >= 0 ? "generations = " + generations : "generations = invalid | please type a number positive.");
+                        missingParams.remove("generations");
+                        break;
+                    case "s":
+                        speed = check.speed(value);
+                        System.out.println(speed > 0 ? "speed = " + speed : "speed = invalid  | please type a number positive between 250 and 1000.");
+                        missingParams.remove("speed");
+                        break;
+                    case "n":
+                        int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
+                        if (check.isPresentValue(lay)) {
+                            layout = lay;
+                            System.out.println(("neighborhood = " + layout + " [Layout " + layout + "]"));
+                        } else {
+                            System.out.println("neighborhood = invalid | please type a number between 1 and 5.");
+                        }
+                        break;
+                    case "p":
+                        if (check.isValidPattern(value, width)) {
+                            population.append(value.replace("\"", ""));
+                            System.out.println("population = " + population);
+                            missingParams.remove("population");
+                        } else if (value.equals("rnd")) {
+                            for (int i = 0; i < height; i++) {
+                                StringBuilder line = new StringBuilder();
+                                for (int j = 0; j < width; j++) {
+                                    line.append(rand.nextInt(2));
+                                }
+                                if (i < height - 1) {
+                                    line.append("#");
+                                }
+                                population.append(line);
                             }
-
-                            System.out.println(("vizinhaça = " + layout + " [Layout " + layout + "]"));
-                            break;
-                        case "p":
-                            if (check.isValidPattern(value, width)) {
-                                population.append(value.replace("\"", ""));
-                                System.out.println("population = " + population);
-                                missingParams.remove("population");
-                            } else {
-                                System.out.println("population = invalido");
-                            }
-                            break;
-                        default:
-                            System.out.println("Argumento desconhecido: " + key);
-                            break;
-                    }
+                            System.out.println("Randomized population = " + population);
+                            missingParams.remove("population");
+                        } else {
+                            System.out.println("population = invalid");
+                        }
+                        break;
+                    default:
+                        System.out.println("Unknown argument: " + key);
+                        break;
                 }
             }
         }
 
         // Verificar se há parâmetros faltando
         if (!missingParams.isEmpty()) {
-            System.out.println("Parâmetros não informados:");
+            System.out.println("Parameters not reported:");
             for (String param : missingParams) {
                 System.out.println(" - " + param);
             }
