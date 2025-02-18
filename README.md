@@ -53,17 +53,25 @@ Os parâmetros podem ser passados via linha de comando no seguinte formato:
     101
     010
     ```
-
+  obs: a variável `p` tem um valor especial `"rnd"`, caso queira que isso seja aleatório.
 ---
 
 ## Exemplos de Execução
 
 #### Compile e depois execute passando os paramêtros
 
+##### Default
 ```bash
 javac app/GameOfLife.java
 
 java app.GameOfLife w=20 h=10 g=50 s=500 n=3 p="010#101#000"
+```
+##### Randomized
+```bash
+javac app/GameOfLife.java
+
+java app.GameOfLife w=20 h=10 g=50 s=500 n=3 p="rnd"
+```
 
 
 
