@@ -31,9 +31,11 @@ public class Check {
     public int limit(String valor, int[] limitTo) {
         if (isInteger(valor)) {
             int num = Integer.parseInt(valor);
-            for (int limit : limitTo) {
-                if (num == limit) {
-                    return num;
+            if(num > 0) {
+                for (int limit : limitTo) {
+                    if (num == limit) {
+                        return num;
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package config;
 
+import dom.Grid;
 import util.Check;
 
 import java.util.ArrayList;
@@ -68,8 +69,9 @@ public class GameOfLifeConfig {
                         int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
                         if (check.isPresentValue(lay)) {
                             layout = lay;
-                            System.out.println(("neighborhood = " + layout + " [Layout " + layout + "]"));
+                            System.out.println(("neighborhood = " + layout + " [Layout " + Grid.typeOfNeighborhood(layout) + "]"));
                         } else {
+                            layout = 0;
                             System.out.println("neighborhood = invalid | please type a number between 1 and 5.");
                         }
                         break;
@@ -92,7 +94,7 @@ public class GameOfLifeConfig {
                             System.out.println("Randomized population = " + population);
                             missingParams.remove("population");
                         } else {
-                            System.out.println("population = invalid");
+                            System.out.println("population = invalid | please follow this model(0 - dead, 1 - alive) = " + "101...#010...#100...");
                         }
                         break;
                     default:

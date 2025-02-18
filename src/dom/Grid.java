@@ -112,7 +112,7 @@ public class Grid {
      * @param n O código do layout (1 a 5).
      * @return O nome do layout, ou null se o código não for válido.
      */
-    public String typeOfNeighborhood(int n) {
+    public static String typeOfNeighborhood(int n) {
         return switch (n) {
             case 1 -> "Jala University";
             case 2 -> "Programming 1";
