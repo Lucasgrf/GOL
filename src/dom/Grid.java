@@ -42,7 +42,7 @@ public class Grid {
         String[] rows = pattern.split("#");
 
         if (rows.length > line || rows[0].length() > column) {
-            System.out.println("Erro: O padrão é maior do que o tamanho da grade.");
+            System.out.println("Error: The pattern is larger than the grid size.");
             return;
         }
 
@@ -219,5 +219,13 @@ public class Grid {
      */
     public Cell getCell(int x, int y) {
         return grid[x][y];
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 }

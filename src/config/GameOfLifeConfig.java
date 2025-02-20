@@ -19,8 +19,8 @@ import java.util.Random;
  */
 public class GameOfLifeConfig {
 
-    private int width = 20;
-    private int height = 20;
+    private int width = 80;
+    private int height = 40;
     private int generations = 0;
     private int speed = 1000;
     private int layout = 3;
@@ -47,6 +47,7 @@ public class GameOfLifeConfig {
         missingParams.add("speed");
         missingParams.add("population");
         missingParams.add("layout");
+        Grid grid = new Grid(width, height);
 
         System.out.print("Parameters in the args: ");
         System.out.println((args.length > 0) ? " " : "Empty, please pass the values to w,h,g,s,p and n");
@@ -109,9 +110,9 @@ public class GameOfLifeConfig {
                             System.out.println("population = " + population);
                             missingParams.remove("population");
                         } else if (value.equals("rnd")) {
-                            for (int i = 0; i < height; i++) {
+                            for (int i = 0; i < Math.min(height, 40); i++) {
                                 StringBuilder line = new StringBuilder();
-                                for (int j = 0; j < width; j++) {
+                                for (int j = 0; j < Math.min(width, 80); j++) {
                                     line.append(rand.nextInt(2));
                                 }
                                 if (i < height - 1) {
