@@ -108,9 +108,9 @@ public class GameOfLifeConfig {
                                 }
                                 population.append(line);
                             }
-                            if(population.isEmpty()) {
+                            if (population.isEmpty()) {
                                 System.out.println("population = population is empty");
-                            }else{
+                            } else {
                                 System.out.println("Randomized population = " + population);
                                 missingParams.remove("population");
                             }
@@ -175,7 +175,7 @@ public class GameOfLifeConfig {
         if (missingParams.contains("population")) {
             System.out.println(" - population = all dead");
         }
-        if(!missingParams.isEmpty()) {
+        if (!missingParams.isEmpty()) {
             System.out.println("Caution: Please, pass the correct values in CLI for running the game of life in another configs\n");
         }
     }
