@@ -38,7 +38,8 @@ public class GameOfLifeConfig {
         missingParams.add("population");
         missingParams.add("layout");
 
-        System.out.println("Parameters in the args: ");
+        System.out.print("Parameters in the args: ");
+        System.out.println((args.length > 0) ? " " : "Empty");
         for (String arg : args) {
             String[] split = arg.split("=", 2);
             if (split.length == 2) {
