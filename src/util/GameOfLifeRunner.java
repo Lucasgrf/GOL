@@ -7,9 +7,10 @@ import render.SwingRenderer;
 import javax.swing.*;
 
 /**
- * A classe {@code GameOfLifeRunner} é responsável por rodar a simulação do jogo Game of Life com base
- * nas configurações fornecidas pela classe {@code GameOfLifeConfig}. Ela inicializa a grid do jogo,
- * configura a interface gráfica, renderiza as gerações e processa as atualizações a cada ciclo de geração.
+ * A classe {@code GameOfLifeRunner} é responsável por executar a simulação do jogo Game of Life com base
+ * nas configurações fornecidas pela classe {@code GameOfLifeConfig}. Ela inicializa a grid do jogo, configura a
+ * interface gráfica, renderiza as gerações e processa as atualizações a cada ciclo de geração, atualizando a
+ * interface gráfica para refletir as mudanças no estado do jogo.
  */
 public class GameOfLifeRunner {
     private GameOfLifeConfig config;
@@ -25,11 +26,20 @@ public class GameOfLifeRunner {
     }
 
     /**
-     * Inicia a execução do jogo Game of Life. Esta função configura a grid do jogo, cria a interface gráfica,
-     * processa as gerações e atualiza a renderização a cada nova geração.
+     * Inicia a execução do jogo Game of Life. Este método configura a grid do jogo com base nas configurações fornecidas,
+     * cria a interface gráfica, processa as gerações e atualiza a renderização a cada nova geração.
+     * <p>
+     * O fluxo do método é o seguinte:
+     * <ul>
+     *   <li>Inicializa a grid com as configurações de tamanho e população.</li>
+     *   <li>Configura a interface gráfica com o Swing e exibe a janela.</li>
+     *   <li>Renderiza a primeira geração e aguarda o tempo configurado para a próxima geração.</li>
+     *   <li>Executa um loop para processar as gerações, atualizando a renderização a cada ciclo.</li>
+     * </ul>
+     * </p>
      */
     public void run() {
-        if (config.getWidth() > 0 && config.getHeight() > 0 && config.getLayout() > 0) {
+        if (config.getWidth() > 0 && config.getHeight() > 0 && config.getLayout() > 0 && config.getGenerations() >= 0) {
             Grid grid = new Grid(config.getHeight(), config.getWidth());
             grid.initializeGrid(config.getPopulation());
 
@@ -62,6 +72,9 @@ public class GameOfLifeRunner {
 
     /**
      * Aguarda a quantidade de tempo especificada pela velocidade entre as gerações.
+     * Este método usa o valor de velocidade (em milissegundos) para determinar quanto tempo a execução deve
+     * aguardar antes de avançar para a próxima geração. Se a velocidade for zero ou negativa, não há espera
+     * entre as gerações.
      *
      * @param speed a velocidade (em milissegundos) de espera entre cada geração.
      */

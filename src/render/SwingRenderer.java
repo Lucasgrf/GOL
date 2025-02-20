@@ -6,16 +6,21 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Renderiza a grade do Game of Life utilizando Swing para exibição gráfica.
- * Cada célula é representada como um quadrado de 20x20 pixels, sendo verde para vivas e branca para mortas.
+ * Renderiza a grade do jogo Game of Life utilizando a biblioteca Swing para exibição gráfica.
+ * Cada célula da grade é representada por um quadrado de 20x20 pixels. Células vivas são desenhadas em verde e
+ * células mortas são desenhadas em branco. As células são organizadas em uma grade com bordas visíveis.
+ *
+ * <p>Esta classe é responsável por representar graficamente a evolução do estado do jogo, onde a
+ * cada geração as células são desenhadas conforme sua condição (viva ou morta) em uma interface gráfica simples.</p>
  */
 public class SwingRenderer extends JPanel {
     private Grid grid;
 
     /**
-     * Constrói um SwingRenderer para a grade especificada.
-     * Define o tamanho preferido do painel com base no número de linhas e colunas da grade.
-     * @param grid A grade a ser renderizada.
+     * Constrói um objeto SwingRenderer para a grade fornecida, configurando o painel com o tamanho apropriado
+     * com base no número de linhas e colunas da grade.
+     *
+     * @param grid A grade que será renderizada neste painel.
      */
     public SwingRenderer(Grid grid) {
         this.grid = grid;
@@ -23,11 +28,15 @@ public class SwingRenderer extends JPanel {
     }
 
     /**
-     * Sobrescreve o método paintComponent para desenhar a grade na tela.
-     * Células vivas são desenhadas em verde e células mortas em branco.
-     * Também desenha bordas pretas em torno de cada célula.
+     * Sobrescreve o método {@code paintComponent} para desenhar a grade do jogo de forma gráfica.
+     * Células vivas são desenhadas em verde, e células mortas são desenhadas em branco. Além disso, bordas
+     * pretas são desenhadas em torno de cada célula.
      *
-     * @param g O contexto gráfico para desenhar os componentes.
+     * <p>Este método é invocado automaticamente pelo Swing sempre que é necessário atualizar a exibição
+     * da interface gráfica. Ele itera por todas as células da grade e desenha um quadrado correspondente a cada
+     * célula com a cor apropriada.</p>
+     *
+     * @param g O contexto gráfico utilizado para desenhar os componentes na tela.
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -45,7 +54,11 @@ public class SwingRenderer extends JPanel {
     }
 
     /**
-     * Atualiza a tela chamando repaint(), forçando a renderização da grade atualizada.
+     * Atualiza a exibição da grade chamando o método {@code repaint}, que força a renderização da grade
+     * atualizada na tela.
+     *
+     * <p>Este método deve ser invocado sempre que houver uma mudança no estado da grade (por exemplo, uma nova
+     * geração foi gerada), forçando a atualização visual da interface gráfica.</p>
      */
     public void update() {
         repaint();

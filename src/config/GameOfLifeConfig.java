@@ -11,6 +11,11 @@ import java.util.Random;
  * A classe {@code GameOfLifeConfig} é responsável por processar e validar os parâmetros de configuração
  * fornecidos via linha de comando para o jogo Game of Life. Ela gerencia parâmetros como largura, altura,
  * número de gerações, velocidade, tipo de vizinhança e o padrão inicial de população.
+ * <p>
+ * A classe garante que os parâmetros fornecidos sejam válidos e ajustados conforme necessário, fornecendo
+ * valores padrão para os parâmetros ausentes. Ela também valida e processa a configuração de população,
+ * aceitando tanto padrões predefinidos quanto a geração aleatória de células.
+ * </p>
  */
 public class GameOfLifeConfig {
 
@@ -23,10 +28,15 @@ public class GameOfLifeConfig {
     Random rand = new Random();
 
     /**
-     * Construtor que processa os parâmetros fornecidos via linha de comando e valida suas configurações.
+     * Constrói um objeto {@code GameOfLifeConfig} que processa os parâmetros fornecidos via linha de comando
+     * e valida suas configurações. Os parâmetros são esperados no formato chave=valor (ex.: "w=20", "h=20", etc.).
+     * <p>
+     * O construtor valida cada parâmetro e ajusta os valores conforme necessário, exibindo mensagens de erro
+     * para parâmetros inválidos ou ausentes. Se algum parâmetro obrigatório estiver faltando, o método
+     * exibirá seus valores padrão.
+     * </p>
      *
-     * @param args os parâmetros fornecidos via linha de comando no formato chave=valor, onde cada chave
-     *             representa um parâmetro do jogo (ex.: "w", "h", "g", etc.).
+     * @param args os parâmetros fornecidos via linha de comando no formato chave=valor.
      */
     public GameOfLifeConfig(String[] args) {
         Check check = new Check();
@@ -39,7 +49,7 @@ public class GameOfLifeConfig {
         missingParams.add("layout");
 
         System.out.print("Parameters in the args: ");
-        System.out.println((args.length > 0) ? " " : "Empty");
+        System.out.println((args.length > 0) ? " " : "Empty, please pass the values to w,h,g,s,p and n");
         for (String arg : args) {
             String[] split = arg.split("=", 2);
             if (split.length == 2) {
@@ -54,7 +64,7 @@ public class GameOfLifeConfig {
                             System.out.println("width = " + width);
                             missingParams.remove("width");
                         } else {
-                            System.out.println("width = invalid | please type 10,20,30,40 or 80.");
+                            System.err.println("width = invalid | please type 10,20,30,40 or 80.");
                         }
                         break;
                     case "h":
@@ -63,16 +73,16 @@ public class GameOfLifeConfig {
                             System.out.println("height = " + height);
                             missingParams.remove("height");
                         } else {
-                            System.out.println("height = invalid | please type 10,20 or 40.");
+                            System.err.println("height = invalid | please type 10,20 or 40.");
                         }
                         break;
                     case "g":
                         generations = check.generations(value);
-                        if (check.isPresentValue(generations) || generations == 0) {
+                        if (check.isPresentValue(generations)) {
                             System.out.println("generations = " + generations);
                             missingParams.remove("generations");
                         } else {
-                            System.out.println("generations = invalid | please type a number positive.");
+                            System.err.println("generations = invalid | please type a number positive.");
                         }
                         break;
                     case "s":
@@ -81,7 +91,7 @@ public class GameOfLifeConfig {
                             System.out.println("speed = " + speed);
                             missingParams.remove("speed");
                         } else {
-                            System.out.println("speed = invalid  | please type a number positive between 250 and 1000.");
+                            System.err.println("speed = invalid  | please type a number positive between 250 and 1000.");
                         }
                         break;
                     case "n":
@@ -90,7 +100,7 @@ public class GameOfLifeConfig {
                             System.out.println(("neighborhood = " + layout + " [Layout " + Grid.typeOfNeighborhood(layout) + "]"));
                             missingParams.remove("layout");
                         } else {
-                            System.out.println("neighborhood = invalid | please type a number between 1 and 5.");
+                            System.err.println("neighborhood = invalid | please type a number between 1 and 5.");
                         }
                         break;
                     case "p":
@@ -110,7 +120,7 @@ public class GameOfLifeConfig {
                                 population.append(line);
                             }
                             if (population.isEmpty()) {
-                                System.out.println("population = population is empty");
+                                System.err.println("population = population is empty");
                             } else {
                                 System.out.println("Randomized population = " + population);
                                 missingParams.remove("population");
@@ -131,9 +141,9 @@ public class GameOfLifeConfig {
         // Verificar se há parâmetros faltando
         if (!missingParams.isEmpty() && args.length != 0) {
             printDefaultValues(missingParams, width, height, generations, speed, layout);
-            System.out.println("Parameters not found: ");
+            System.err.println("\nParameters not found: ");
             for (String param : missingParams) {
-                System.out.println(" - " + param);
+                System.err.println(" - " + param);
             }
             System.out.println();
         } else if (args.length == 0) {
@@ -144,47 +154,49 @@ public class GameOfLifeConfig {
 
     /**
      * Exibe os valores padrão dos parâmetros que não foram informados pelo usuário.
+     * <p>
+     * Este método recebe uma lista de parâmetros ausentes e imprime apenas aqueles que não foram fornecidos,
+     * mostrando os valores padrão correspondentes. Se nenhum parâmetro for fornecido, os valores padrão
+     * são exibidos para todos os parâmetros.
+     * </p>
      *
-     * <p>O método recebe uma lista de parâmetros ausentes e imprime apenas aqueles que não foram fornecidos,
-     * mostrando os valores padrão correspondentes.</p>
-     *
-     * @param missingParams Lista de strings contendo os nomes dos parâmetros que não foram passados.
-     * @param width         Valor padrão para a largura da grade, caso não tenha sido informado.
-     * @param height        Valor padrão para a altura da grade, caso não tenha sido informado.
-     * @param generations   Valor padrão para a quantidade de gerações, caso não tenha sido informado.
-     * @param speed         Valor padrão para a velocidade de execução, caso não tenha sido informado.
-     * @param layout        Valor padrão para o layout inicial da grade, caso não tenha sido informado.
+     * @param missingParams Lista de parâmetros ausentes.
+     * @param width         Largura padrão da grade, caso não tenha sido informado.
+     * @param height        Altura padrão da grade, caso não tenha sido informado.
+     * @param generations   Número padrão de gerações, caso não tenha sido informado.
+     * @param speed         Velocidade padrão de execução, caso não tenha sido informado.
+     * @param layout        Tipo padrão de vizinhança, caso não tenha sido informado.
      */
     private void printDefaultValues(List<String> missingParams, int width, int height, int generations, int speed, int layout) {
         Check check = new Check();
         System.out.println("Default values: ");
-        if (missingParams.contains("width")) {
+        if (missingParams.contains("width") && width == 20) {
             System.out.println(" - width = " + width);
         }
-        if (missingParams.contains("height")) {
+        if (missingParams.contains("height") && height == 20) {
             System.out.println(" - height = " + height);
         }
-        if (missingParams.contains("generations") && generations != 0) {
+        if (missingParams.contains("generations") && generations == 0) {
             System.out.println(" - generations = " + generations);
         }
-        if (missingParams.contains("speed")) {
+        if (missingParams.contains("speed") && speed == 1000) {
             System.out.println(" - speed = " + speed);
         }
-        if (missingParams.contains("layout") || layout == 3) {
+        if (missingParams.contains("layout") && layout == 3) {
             System.out.println(" - layout = " + layout);
         }
         if (missingParams.contains("population")) {
             System.out.println(" - population = all dead");
         }
         if (!missingParams.isEmpty()) {
-            System.out.println("Caution: Please, pass the correct values in CLI for running the game of life in another configs\n");
+            System.err.println("Caution: Please, pass the correct values in CLI for running the game of life in another configs");
         }
     }
 
     /**
      * Retorna a largura da grid do jogo.
      *
-     * @return a largura da grid.
+     * @return A largura da grid. O valor padrão é 20 se não for especificado.
      */
     public int getWidth() {
         return width;
@@ -193,7 +205,7 @@ public class GameOfLifeConfig {
     /**
      * Retorna a altura da grid do jogo.
      *
-     * @return a altura da grid.
+     * @return A altura da grid. O valor padrão é 20 se não for especificado.
      */
     public int getHeight() {
         return height;
@@ -202,7 +214,7 @@ public class GameOfLifeConfig {
     /**
      * Retorna o número de gerações a serem simuladas.
      *
-     * @return o número de gerações.
+     * @return O número de gerações. O valor padrão é 0 se não for especificado.
      */
     public int getGenerations() {
         return generations;
@@ -211,7 +223,7 @@ public class GameOfLifeConfig {
     /**
      * Retorna a velocidade de atualização entre as gerações, em milissegundos.
      *
-     * @return a velocidade de atualização.
+     * @return A velocidade de atualização. O valor padrão é 1000 ms se não for especificado.
      */
     public int getSpeed() {
         return speed;
@@ -220,7 +232,7 @@ public class GameOfLifeConfig {
     /**
      * Retorna o tipo de layout de vizinhança selecionado para o jogo.
      *
-     * @return o tipo de vizinhança (1 a 5).
+     * @return O tipo de vizinhança (1 a 5). O valor padrão é 3 se não for especificado.
      */
     public int getLayout() {
         return layout;
@@ -229,7 +241,7 @@ public class GameOfLifeConfig {
     /**
      * Retorna o padrão de população inicial como uma string.
      *
-     * @return o padrão de população.
+     * @return O padrão de população. O valor padrão é "todas as células mortas" se não for especificado.
      */
     public String getPopulation() {
         return population.toString();
