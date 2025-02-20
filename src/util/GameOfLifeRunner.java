@@ -3,6 +3,7 @@ package util;
 import config.GameOfLifeConfig;
 import dom.Grid;
 import render.SwingRenderer;
+
 import javax.swing.*;
 
 /**

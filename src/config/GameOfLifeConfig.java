@@ -66,7 +66,7 @@ public class GameOfLifeConfig {
                         break;
                     case "g":
                         generations = check.generations(value);
-                        if (check.isPresentValue(generations) ||  generations == 0) {
+                        if (check.isPresentValue(generations) || generations == 0) {
                             System.out.println("generations = " + generations);
                             missingParams.remove("generations");
                         } else {
@@ -124,13 +124,13 @@ public class GameOfLifeConfig {
 
         // Verificar se há parâmetros faltando
         if (!missingParams.isEmpty() && args.length != 0) {
-            printDefaultValues(missingParams,width, height, generations, speed, layout);
+            printDefaultValues(missingParams, width, height, generations, speed, layout);
             System.err.println("Parameters not found: ");
             for (String param : missingParams) {
                 System.err.println(" - " + param + "[Using default]");
             }
-        } else if(args.length == 0) {
-            printDefaultValues(missingParams,width, height, generations, speed, layout);
+        } else if (args.length == 0) {
+            printDefaultValues(missingParams, width, height, generations, speed, layout);
         }
 
     }
@@ -142,31 +142,31 @@ public class GameOfLifeConfig {
      * mostrando os valores padrão correspondentes.</p>
      *
      * @param missingParams Lista de strings contendo os nomes dos parâmetros que não foram passados.
-     * @param width Valor padrão para a largura da grade, caso não tenha sido informado.
-     * @param height Valor padrão para a altura da grade, caso não tenha sido informado.
-     * @param generations Valor padrão para a quantidade de gerações, caso não tenha sido informado.
-     * @param speed Valor padrão para a velocidade de execução, caso não tenha sido informado.
-     * @param layout Valor padrão para o layout inicial da grade, caso não tenha sido informado.
+     * @param width         Valor padrão para a largura da grade, caso não tenha sido informado.
+     * @param height        Valor padrão para a altura da grade, caso não tenha sido informado.
+     * @param generations   Valor padrão para a quantidade de gerações, caso não tenha sido informado.
+     * @param speed         Valor padrão para a velocidade de execução, caso não tenha sido informado.
+     * @param layout        Valor padrão para o layout inicial da grade, caso não tenha sido informado.
      */
     private void printDefaultValues(List<String> missingParams, int width, int height, int generations, int speed, int layout) {
         Check check = new Check();
         System.out.println("Default values: ");
-        if(missingParams.contains("width")) {
+        if (missingParams.contains("width")) {
             System.out.println(" - width = " + width);
         }
-        if(missingParams.contains("height")) {
+        if (missingParams.contains("height")) {
             System.out.println(" - height = " + height);
         }
-        if(missingParams.contains("generations") && generations != 0) {
+        if (missingParams.contains("generations") && generations != 0) {
             System.out.println(" - generations = " + generations);
         }
-        if(missingParams.contains("speed")) {
+        if (missingParams.contains("speed")) {
             System.out.println(" - speed = " + speed);
         }
-        if(missingParams.contains("layout")) {
+        if (missingParams.contains("layout")) {
             System.out.println(" - layout = " + layout);
         }
-        if(missingParams.contains("population")) {
+        if (missingParams.contains("population")) {
             System.out.println(" - population = all dead");
         }
     }
