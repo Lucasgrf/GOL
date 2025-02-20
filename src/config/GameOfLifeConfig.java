@@ -14,10 +14,10 @@ import java.util.Random;
  */
 public class GameOfLifeConfig {
 
-    private int width = 0;
-    private int height = 0;
+    private int width = 20;
+    private int height = 20;
     private int generations = 0;
-    private int speed = 0;
+    private int speed = 1000;
     private int layout = 3;
     private StringBuilder population = new StringBuilder();
     Random rand = new Random();
@@ -36,6 +36,7 @@ public class GameOfLifeConfig {
         missingParams.add("generations");
         missingParams.add("speed");
         missingParams.add("population");
+        missingParams.add("layout");
 
         for (String arg : args) {
             String[] split = arg.split("=", 2);
@@ -56,28 +57,28 @@ public class GameOfLifeConfig {
                         break;
                     case "h":
                         height = check.limit(value, new int[]{10, 20, 40});
-                        if(check.isPresentValue(height)) {
+                        if (check.isPresentValue(height)) {
                             System.out.println("height = " + height);
                             missingParams.remove("height");
-                        }else{
+                        } else {
                             System.err.println("height = invalid | please type 10,20 or 40.");
                         }
                         break;
                     case "g":
                         generations = check.generations(value);
-                        if(check.isPresentValue(generations)){
+                        if (check.isPresentValue(generations) ||  generations == 0) {
                             System.out.println("generations = " + generations);
                             missingParams.remove("generations");
-                        }else{
+                        } else {
                             System.err.println("generations = invalid | please type a number positive.");
                         }
                         break;
                     case "s":
                         speed = check.speed(value);
-                        if(check.isPresentValue(speed)) {
+                        if (check.isPresentValue(speed)) {
                             System.out.println("speed = " + speed);
                             missingParams.remove("speed");
-                        }else{
+                        } else {
                             System.err.println("speed = invalid  | please type a number positive between 250 and 1000.");
                         }
                         break;
@@ -85,6 +86,7 @@ public class GameOfLifeConfig {
                         layout = check.limit(value, new int[]{1, 2, 3, 4, 5});
                         if (check.isPresentValue(layout)) {
                             System.out.println(("neighborhood = " + layout + " [Layout " + Grid.typeOfNeighborhood(layout) + "]"));
+                            missingParams.remove("layout");
                         } else {
                             layout = 0;
                             System.err.println("neighborhood = invalid | please type a number between 1 and 5.");
@@ -121,11 +123,51 @@ public class GameOfLifeConfig {
         }
 
         // Verificar se há parâmetros faltando
-        if (!missingParams.isEmpty()) {
-            System.out.println("Parameters not reported:");
+        if (!missingParams.isEmpty() && args.length != 0) {
+            printDefaultValues(missingParams,width, height, generations, speed, layout);
+            System.err.println("Parameters not found: ");
             for (String param : missingParams) {
-                System.out.println(" - " + param);
+                System.err.println(" - " + param + "[Using default]");
             }
+        } else if(args.length == 0) {
+            printDefaultValues(missingParams,width, height, generations, speed, layout);
+        }
+
+    }
+
+    /**
+     * Exibe os valores padrão dos parâmetros que não foram informados pelo usuário.
+     *
+     * <p>O método recebe uma lista de parâmetros ausentes e imprime apenas aqueles que não foram fornecidos,
+     * mostrando os valores padrão correspondentes.</p>
+     *
+     * @param missingParams Lista de strings contendo os nomes dos parâmetros que não foram passados.
+     * @param width Valor padrão para a largura da grade, caso não tenha sido informado.
+     * @param height Valor padrão para a altura da grade, caso não tenha sido informado.
+     * @param generations Valor padrão para a quantidade de gerações, caso não tenha sido informado.
+     * @param speed Valor padrão para a velocidade de execução, caso não tenha sido informado.
+     * @param layout Valor padrão para o layout inicial da grade, caso não tenha sido informado.
+     */
+    private void printDefaultValues(List<String> missingParams, int width, int height, int generations, int speed, int layout) {
+        Check check = new Check();
+        System.out.println("Default values: ");
+        if(missingParams.contains("width")) {
+            System.out.println(" - width = " + width);
+        }
+        if(missingParams.contains("height")) {
+            System.out.println(" - height = " + height);
+        }
+        if(missingParams.contains("generations") && generations != 0) {
+            System.out.println(" - generations = " + generations);
+        }
+        if(missingParams.contains("speed")) {
+            System.out.println(" - speed = " + speed);
+        }
+        if(missingParams.contains("layout")) {
+            System.out.println(" - layout = " + layout);
+        }
+        if(missingParams.contains("population")) {
+            System.out.println(" - population = all dead");
         }
     }
 
