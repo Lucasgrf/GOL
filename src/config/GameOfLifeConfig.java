@@ -47,32 +47,47 @@ public class GameOfLifeConfig {
                 switch (key) {
                     case "w":
                         width = check.limit(value, new int[]{10, 20, 30, 40, 80});
-                        System.out.println(width > 0 ? "width = " + width : "width = invalid | please type 10,20,30,40 or 80.");
-                        missingParams.remove("width");
+                        if (check.isPresentValue(width)) {
+                            System.out.println("width = " + width);
+                            missingParams.remove("width");
+                        } else {
+                            System.err.println("width = invalid | please type 10,20,30,40 or 80.");
+                        }
                         break;
                     case "h":
                         height = check.limit(value, new int[]{10, 20, 40});
-                        System.out.println(height > 0 ? "height = " + height : "height = invalid | please type 10,20 or 40.");
-                        missingParams.remove("height");
+                        if(check.isPresentValue(height)) {
+                            System.out.println("height = " + height);
+                            missingParams.remove("height");
+                        }else{
+                            System.err.println("height = invalid | please type 10,20 or 40.");
+                        }
                         break;
                     case "g":
                         generations = check.generations(value);
-                        System.out.println(generations >= 0 ? "generations = " + generations : "generations = invalid | please type a number positive.");
-                        missingParams.remove("generations");
+                        if(check.isPresentValue(generations)){
+                            System.out.println("generations = " + generations);
+                            missingParams.remove("generations");
+                        }else{
+                            System.err.println("generations = invalid | please type a number positive.");
+                        }
                         break;
                     case "s":
                         speed = check.speed(value);
-                        System.out.println(speed > 0 ? "speed = " + speed : "speed = invalid  | please type a number positive between 250 and 1000.");
-                        missingParams.remove("speed");
+                        if(check.isPresentValue(speed)) {
+                            System.out.println("speed = " + speed);
+                            missingParams.remove("speed");
+                        }else{
+                            System.err.println("speed = invalid  | please type a number positive between 250 and 1000.");
+                        }
                         break;
                     case "n":
-                        int lay = check.limit(value, new int[]{1, 2, 3, 4, 5});
-                        if (check.isPresentValue(lay)) {
-                            layout = lay;
+                        layout = check.limit(value, new int[]{1, 2, 3, 4, 5});
+                        if (check.isPresentValue(layout)) {
                             System.out.println(("neighborhood = " + layout + " [Layout " + Grid.typeOfNeighborhood(layout) + "]"));
                         } else {
                             layout = 0;
-                            System.out.println("neighborhood = invalid | please type a number between 1 and 5.");
+                            System.err.println("neighborhood = invalid | please type a number between 1 and 5.");
                         }
                         break;
                     case "p":
@@ -94,7 +109,8 @@ public class GameOfLifeConfig {
                             System.out.println("Randomized population = " + population);
                             missingParams.remove("population");
                         } else {
-                            System.out.println("population = invalid | please follow this model(0 - dead, 1 - alive) = " + "101...#010...#100...");
+                            System.err.println("population = invalid | please follow this model(0 - dead, 1 - alive): "
+                                    + "\n101...#010...#100..." + "\n*If you want randomized, try passing to p 'rnd'");
                         }
                         break;
                     default:

@@ -24,14 +24,14 @@ public class Check {
     /**
      * Verifica se o valor fornecido está dentro de um conjunto de limites predefinidos.
      *
-     * @param valor o valor a ser verificado
+     * @param valor   o valor a ser verificado
      * @param limitTo um array de inteiros que define os limites válidos
      * @return o valor fornecido se ele estiver dentro dos limites, caso contrário, retorna 0
      */
     public int limit(String valor, int[] limitTo) {
         if (isInteger(valor)) {
             int num = Integer.parseInt(valor);
-            if(num > 0) {
+            if (num > 0) {
                 for (int limit : limitTo) {
                     if (num == limit) {
                         return num;
@@ -77,11 +77,15 @@ public class Check {
      * Verifica se o padrão fornecido é válido, isto é, se ele consiste em seções separadas por '#',
      * onde cada seção contém apenas os caracteres '0' e '1', e o comprimento de cada seção não excede o número máximo de colunas.
      *
-     * @param p o padrão a ser verificado
+     * @param p          o padrão a ser verificado
      * @param maxColumns o número máximo de colunas permitido em cada seção
      * @return {@code true} se o padrão for válido, caso contrário, {@code false}
      */
     public boolean isValidPattern(String p, int maxColumns) {
+        if (p.isEmpty()) {
+            return false;
+        }
+
         String[] sections = p.split("#");
 
         for (String section : sections) {
