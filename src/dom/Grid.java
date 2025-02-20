@@ -1,9 +1,8 @@
 package dom;
 
 /**
- * Representa uma grade para o jogo Game of Life.
- * A grade é composta por células vivas ou mortas, permitindo inicializar,
- * atualizar e exibir o estado das células.
+ * Representa uma grade para o jogo Game of Life. A grade é composta por células vivas ou mortas,
+ * permitindo inicializar, atualizar e exibir o estado das células de acordo com as regras do jogo.
  */
 public class Grid {
     private int line, column;
@@ -11,6 +10,10 @@ public class Grid {
 
     /**
      * Constrói uma nova instância de Grid com as dimensões especificadas.
+     * <p>
+     * A matriz de células é inicializada com o tamanho fornecido e todas as células
+     * são criadas inicialmente no estado morto.
+     * </p>
      *
      * @param line   Número de linhas da grade.
      * @param column Número de colunas da grade.
@@ -19,6 +22,12 @@ public class Grid {
         this.line = line;
         this.column = column;
         this.grid = new Cell[line][column];
+
+        for (int i = 0; i < line; i++) {
+            for (int j = 0; j < column; j++) {
+                grid[i][j] = new Cell(false);
+            }
+        }
     }
 
     /**
@@ -33,18 +42,12 @@ public class Grid {
         String[] rows = pattern.split("#");
 
         if (rows.length > line || rows[0].length() > column) {
-            System.out.println("Error: The pattern is larger than the size of the grid.");
+            System.out.println("Error: The pattern is larger than the grid size.");
             return;
         }
 
         int startRow = Math.max(0, (line - rows.length) / 2);
         int startCol = Math.max(0, (column - rows[0].length()) / 2);
-
-        for (int i = 0; i < line; i++) {
-            for (int j = 0; j < column; j++) {
-                grid[i][j] = new Cell(false);
-            }
-        }
 
         for (int i = 0; i < rows.length; i++) {
             char[] cells = rows[i].toCharArray();
@@ -176,7 +179,6 @@ public class Grid {
         }
     }
 
-
     /**
      * Exibe a grade no console, representando as células vivas com "1"
      * e as células mortas com "0".
@@ -217,5 +219,13 @@ public class Grid {
      */
     public Cell getCell(int x, int y) {
         return grid[x][y];
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 }
