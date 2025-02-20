@@ -38,6 +38,7 @@ public class GameOfLifeConfig {
         missingParams.add("population");
         missingParams.add("layout");
 
+        System.out.println("Parameters in the args: ");
         for (String arg : args) {
             String[] split = arg.split("=", 2);
             if (split.length == 2) {
@@ -52,7 +53,7 @@ public class GameOfLifeConfig {
                             System.out.println("width = " + width);
                             missingParams.remove("width");
                         } else {
-                            System.err.println("width = invalid | please type 10,20,30,40 or 80.");
+                            System.out.println("width = invalid | please type 10,20,30,40 or 80.");
                         }
                         break;
                     case "h":
@@ -61,7 +62,7 @@ public class GameOfLifeConfig {
                             System.out.println("height = " + height);
                             missingParams.remove("height");
                         } else {
-                            System.err.println("height = invalid | please type 10,20 or 40.");
+                            System.out.println("height = invalid | please type 10,20 or 40.");
                         }
                         break;
                     case "g":
@@ -70,7 +71,7 @@ public class GameOfLifeConfig {
                             System.out.println("generations = " + generations);
                             missingParams.remove("generations");
                         } else {
-                            System.err.println("generations = invalid | please type a number positive.");
+                            System.out.println("generations = invalid | please type a number positive.");
                         }
                         break;
                     case "s":
@@ -79,7 +80,7 @@ public class GameOfLifeConfig {
                             System.out.println("speed = " + speed);
                             missingParams.remove("speed");
                         } else {
-                            System.err.println("speed = invalid  | please type a number positive between 250 and 1000.");
+                            System.out.println("speed = invalid  | please type a number positive between 250 and 1000.");
                         }
                         break;
                     case "n":
@@ -88,8 +89,7 @@ public class GameOfLifeConfig {
                             System.out.println(("neighborhood = " + layout + " [Layout " + Grid.typeOfNeighborhood(layout) + "]"));
                             missingParams.remove("layout");
                         } else {
-                            layout = 0;
-                            System.err.println("neighborhood = invalid | please type a number between 1 and 5.");
+                            System.out.println("neighborhood = invalid | please type a number between 1 and 5.");
                         }
                         break;
                     case "p":
@@ -108,8 +108,12 @@ public class GameOfLifeConfig {
                                 }
                                 population.append(line);
                             }
-                            System.out.println("Randomized population = " + population);
-                            missingParams.remove("population");
+                            if(population.isEmpty()) {
+                                System.out.println("population = population is empty");
+                            }else{
+                                System.out.println("Randomized population = " + population);
+                                missingParams.remove("population");
+                            }
                         } else {
                             System.err.println("population = invalid | please follow this model(0 - dead, 1 - alive): "
                                     + "\n101...#010...#100..." + "\n*If you want randomized, try passing to p 'rnd'");
@@ -121,14 +125,16 @@ public class GameOfLifeConfig {
                 }
             }
         }
+        System.out.println();
 
         // Verificar se há parâmetros faltando
         if (!missingParams.isEmpty() && args.length != 0) {
             printDefaultValues(missingParams, width, height, generations, speed, layout);
-            System.err.println("Parameters not found: ");
+            System.out.println("Parameters not found: ");
             for (String param : missingParams) {
-                System.err.println(" - " + param + "[Using default]");
+                System.out.println(" - " + param);
             }
+            System.out.println();
         } else if (args.length == 0) {
             printDefaultValues(missingParams, width, height, generations, speed, layout);
         }
@@ -163,11 +169,14 @@ public class GameOfLifeConfig {
         if (missingParams.contains("speed")) {
             System.out.println(" - speed = " + speed);
         }
-        if (missingParams.contains("layout")) {
+        if (missingParams.contains("layout") || layout == 3) {
             System.out.println(" - layout = " + layout);
         }
         if (missingParams.contains("population")) {
             System.out.println(" - population = all dead");
+        }
+        if(!missingParams.isEmpty()) {
+            System.out.println("Caution: Please, pass the correct values in CLI for running the game of life in another configs\n");
         }
     }
 
