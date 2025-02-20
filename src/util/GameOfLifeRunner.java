@@ -55,7 +55,7 @@ public class GameOfLifeRunner {
                 waitForNextGeneration(config.getSpeed());
             }
         } else {
-            System.out.println("Erro ao inicializar a grid. Verifique os parâmetros.");
+            System.out.println("Error: initializing the grid. Check the parameters.");
         }
     }
 
@@ -69,7 +69,7 @@ public class GameOfLifeRunner {
             try {
                 Thread.sleep(speed);
             } catch (InterruptedException e) {
-                System.err.println("A execução foi interrompida: " + e.getMessage());
+                System.err.println("The execution was stopped: " + e.getMessage());
                 Thread.currentThread().interrupt();
             }
         }
