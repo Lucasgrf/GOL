@@ -1,5 +1,7 @@
 package util;
 
+import java.util.List;
+
 /**
  * A classe {@code Check} fornece métodos utilitários para validar diferentes tipos de entrada,
  * como números inteiros, limites predefinidos, valores de gerações, velocidade, e padrões de células.
@@ -108,4 +110,9 @@ public class Check {
 
         return true;
     }
+
+    public boolean isEndOfList(int index, List<?> list) {
+        return index >= list.size();
+    }
+
 }
