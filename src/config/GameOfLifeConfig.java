@@ -123,6 +123,8 @@ public class GameOfLifeConfig {
             }
         }
         System.out.println();
+
+        //Verifica se o usuário passou "rnd" e faz a população aleatória
         String s = population.toString();
         if (s.equals("rnd")) {
             population.delete(0, population.length());
@@ -190,6 +192,19 @@ public class GameOfLifeConfig {
         }
     }
 
+    /**
+     * Gera um padrão aleatório de células para a grade do jogo.
+     *
+     * Este método cria uma string representando o padrão de células em uma grade
+     * com a largura e altura especificadas, onde cada célula pode ser viva (1)
+     * ou morta (0). O padrão é gerado aleatoriamente e cada linha da grade é
+     * separada por um caractere '#' (exceto a última linha).
+     *
+     * @param width A largura da grade, ou seja, o número de células por linha.
+     * @param height A altura da grade, ou seja, o número de linhas.
+     * @return Uma string representando o padrão aleatório da grade, com cada linha
+     *         separada por '#', exceto a última linha.
+     */
     private String randomizedPattern(int width, int height) {
         for (int i = 0; i < height; i++) {
             StringBuilder line = new StringBuilder();
