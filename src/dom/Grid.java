@@ -1,5 +1,7 @@
 package dom;
 
+import java.util.Random;
+
 /**
  * Representa uma grade para o jogo Game of Life. A grade é composta por células vivas ou mortas,
  * permitindo inicializar, atualizar e exibir o estado das células de acordo com as regras do jogo.

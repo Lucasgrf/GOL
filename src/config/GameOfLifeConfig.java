@@ -19,8 +19,8 @@ import java.util.Random;
  */
 public class GameOfLifeConfig {
 
-    private int width = 80;
-    private int height = 40;
+    private int width = 10;
+    private int height = 10;
     private int generations = 0;
     private int speed = 1000;
     private int layout = 3;
@@ -47,7 +47,6 @@ public class GameOfLifeConfig {
         missingParams.add("speed");
         missingParams.add("population");
         missingParams.add("layout");
-        Grid grid = new Grid(width, height);
 
         System.out.print("Parameters in the args: ");
         System.out.println((args.length > 0) ? " " : "Empty, please pass the values to w,h,g,s,p and n");
@@ -105,27 +104,13 @@ public class GameOfLifeConfig {
                         }
                         break;
                     case "p":
-                        if (check.isValidPattern(value, width)) {
+                        if (value.equals("rnd")) {
+                            population.append("rnd");
+                            missingParams.remove("population");
+                        } else if (check.isValidPattern(value, width)) {
                             population.append(value.replace("\"", ""));
                             System.out.println("population = " + population);
                             missingParams.remove("population");
-                        } else if (value.equals("rnd")) {
-                            for (int i = 0; i < Math.min(height, 40); i++) {
-                                StringBuilder line = new StringBuilder();
-                                for (int j = 0; j < Math.min(width, 80); j++) {
-                                    line.append(rand.nextInt(2));
-                                }
-                                if (i < height - 1) {
-                                    line.append("#");
-                                }
-                                population.append(line);
-                            }
-                            if (population.isEmpty()) {
-                                System.err.println("population = population is empty");
-                            } else {
-                                System.out.println("Randomized population = " + population);
-                                missingParams.remove("population");
-                            }
                         } else {
                             System.err.println("population = invalid | please follow this model(0 - dead, 1 - alive): "
                                     + "\n101...#010...#100..." + "\n*If you want randomized, try passing to p 'rnd'");
@@ -138,6 +123,17 @@ public class GameOfLifeConfig {
             }
         }
         System.out.println();
+        String s = population.toString();
+        if (s.equals("rnd")) {
+            population.delete(0, population.length());
+            population = new StringBuilder(randomizedPattern(getWidth(), getHeight()));
+            if (population.isEmpty()) {
+                System.err.println("population = population is empty");
+            } else {
+                System.out.println("Randomized population = " + population);
+                missingParams.remove("population");
+            }
+        }
 
         // Verificar se há parâmetros faltando
         if (!missingParams.isEmpty() && args.length != 0) {
@@ -171,10 +167,10 @@ public class GameOfLifeConfig {
     private void printDefaultValues(List<String> missingParams, int width, int height, int generations, int speed, int layout) {
         Check check = new Check();
         System.out.println("Default values: ");
-        if (missingParams.contains("width") && width == 20) {
+        if (missingParams.contains("width") && width == 40) {
             System.out.println(" - width = " + width);
         }
-        if (missingParams.contains("height") && height == 20) {
+        if (missingParams.contains("height") && height == 40) {
             System.out.println(" - height = " + height);
         }
         if (missingParams.contains("generations") && generations == 0) {
@@ -192,6 +188,20 @@ public class GameOfLifeConfig {
         if (!missingParams.isEmpty()) {
             System.err.println("Caution: Please, pass the correct values in CLI for running the game of life in another configs");
         }
+    }
+
+    private String randomizedPattern(int width, int height) {
+        for (int i = 0; i < height; i++) {
+            StringBuilder line = new StringBuilder();
+            for (int j = 0; j < width; j++) {
+                line.append(rand.nextInt(2));
+            }
+            if (i < height - 1) {
+                line.append("#");
+            }
+            population.append(line);
+        }
+        return population.toString();
     }
 
     /**
