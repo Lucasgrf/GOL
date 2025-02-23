@@ -19,8 +19,8 @@ import java.util.Random;
  */
 public class GameOfLifeConfig {
 
-    private int width = 10;
-    private int height = 10;
+    private int width = 40;
+    private int height = 40;
     private int generations = 0;
     private int speed = 1000;
     private int layout = 3;
@@ -104,7 +104,7 @@ public class GameOfLifeConfig {
                         }
                         break;
                     case "p":
-                        if (value.equals("rnd")) {
+                        if (value.equalsIgnoreCase("rnd")) {
                             population.append("rnd");
                             missingParams.remove("population");
                         } else if (check.isValidPattern(value, width)) {
@@ -113,7 +113,7 @@ public class GameOfLifeConfig {
                             missingParams.remove("population");
                         } else {
                             System.err.println("population = invalid | please follow this model(0 - dead, 1 - alive): "
-                                    + "\n101...#010...#100..." + "\n*If you want randomized, try passing to p 'rnd'");
+                                    + "\n101...#010...#100..." + "\n*If you want randomized, try passing to p \"rnd\"");
                         }
                         break;
                     default:
@@ -126,7 +126,7 @@ public class GameOfLifeConfig {
 
         //Verifica se o usuário passou "rnd" e faz a população aleatória
         String s = population.toString();
-        if (s.equals("rnd")) {
+        if (s.equalsIgnoreCase("rnd")) {
             population.delete(0, population.length());
             population = new StringBuilder(randomizedPattern(getWidth(), getHeight()));
             if (population.isEmpty()) {
