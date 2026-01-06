@@ -1,4 +1,4 @@
-# Capstone - Game Of Life
+# Game Of Life
 
 O **Game of Life** é uma simulação baseada em autômatos celulares criada por John Conway. Neste jogo, células em uma grade evoluem através de gerações de acordo com regras simples, criando padrões complexos ao longo do tempo. Esta implementação em Java utiliza **POO (Programação Orientada a Objetos)** e oferece uma interface gráfica com **Swing** para visualizar as gerações em tempo real.
 

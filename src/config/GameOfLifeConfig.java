@@ -137,17 +137,11 @@ public class GameOfLifeConfig {
         }
         System.out.println();
 
-        // Verifica se o usuário passou "rnd" e faz a população aleatória
+        // Verifica se o usuário passou "rnd"
         String s = population.toString();
         if (s.equalsIgnoreCase("rnd")) {
-            population.delete(0, population.length());
-            population = new StringBuilder(randomizedPattern(getWidth(), getHeight()));
-            if (population.isEmpty()) {
-                System.err.println("population = population is empty");
-            } else {
-                System.out.println("Randomized population = " + population);
-                missingParams.remove("population");
-            }
+            System.out.println("Randomized population selected.");
+            missingParams.remove("population");
         }
 
         // Verificar se há parâmetros faltando
@@ -188,19 +182,19 @@ public class GameOfLifeConfig {
             int layout) {
         Check check = new Check();
         System.out.println("Default values: ");
-        if (missingParams.contains("width") && width == 40) {
+        if (missingParams.contains("width") && check.validateRange(String.valueOf(width), 10, 500) != 0) {
             System.out.println(" - width = " + width);
         }
-        if (missingParams.contains("height") && height == 40) {
+        if (missingParams.contains("height") && check.validateRange(String.valueOf(height), 10, 500) != 0) {
             System.out.println(" - height = " + height);
         }
-        if (missingParams.contains("generations") && generations == 0) {
+        if (missingParams.contains("generations") && check.generations(String.valueOf(generations)) != -1) {
             System.out.println(" - generations = Infinite (Default)");
         }
-        if (missingParams.contains("speed") && speed == 1000) {
+        if (missingParams.contains("speed") && check.speed(String.valueOf(speed)) != 0) {
             System.out.println(" - speed = " + speed);
         }
-        if (missingParams.contains("layout") && layout == 3) {
+        if (missingParams.contains("layout") && check.validateRange(String.valueOf(layout), 1, 5) != 0) {
             System.out.println(" - layout = " + layout);
         }
         if (missingParams.contains("population")) {
@@ -210,33 +204,6 @@ public class GameOfLifeConfig {
             System.err.println(
                     "Caution: Please, pass the correct values in CLI for running the game of life in another configs");
         }
-    }
-
-    /**
-     * Gera um padrão aleatório de células para a grade do jogo.
-     *
-     * Este método cria uma string representando o padrão de células em uma grade
-     * com a largura e altura especificadas, onde cada célula pode ser viva (1)
-     * ou morta (0). O padrão é gerado aleatoriamente e cada linha da grade é
-     * separada por um caractere '#' (exceto a última linha).
-     *
-     * @param width  A largura da grade, ou seja, o número de células por linha.
-     * @param height A altura da grade, ou seja, o número de linhas.
-     * @return Uma string representando o padrão aleatório da grade, com cada linha
-     *         separada por '#', exceto a última linha.
-     */
-    private String randomizedPattern(int width, int height) {
-        for (int i = 0; i < height; i++) {
-            StringBuilder line = new StringBuilder();
-            for (int j = 0; j < width; j++) {
-                line.append(rand.nextInt(2));
-            }
-            if (i < height - 1) {
-                line.append("#");
-            }
-            population.append(line);
-        }
-        return population.toString();
     }
 
     /**

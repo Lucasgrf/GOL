@@ -51,7 +51,11 @@ public class GameOfLifeRunner {
     public void run() {
         if (config.getWidth() > 0 && config.getHeight() > 0 && config.getLayout() > 0 && config.getGenerations() >= 0) {
             Grid grid = new Grid(config.getHeight(), config.getWidth());
-            grid.initializeGrid(config.getPopulation());
+            if (config.getPopulation().equalsIgnoreCase("rnd")) {
+                grid.generateRandomPopulation();
+            } else {
+                grid.initializeGrid(config.getPopulation());
+            }
 
             // Configura a interface gráfica com o Swing
             JFrame frame = new JFrame("Game of Life");

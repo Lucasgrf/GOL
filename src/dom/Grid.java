@@ -3,8 +3,10 @@ package dom;
 import java.util.Random;
 
 /**
- * Representa uma grade para o jogo Game of Life. A grade é composta por células vivas ou mortas,
- * permitindo inicializar, atualizar e exibir o estado das células de acordo com as regras do jogo.
+ * Representa uma grade para o jogo Game of Life. A grade é composta por células
+ * vivas ou mortas,
+ * permitindo inicializar, atualizar e exibir o estado das células de acordo com
+ * as regras do jogo.
  */
 public class Grid {
     private int line, column;
@@ -34,7 +36,8 @@ public class Grid {
 
     /**
      * Inicializa a grade com um padrão fornecido como uma string.
-     * O padrão é uma sequência de linhas representadas por '1' (viva) e '0' (morta),
+     * O padrão é uma sequência de linhas representadas por '1' (viva) e '0'
+     * (morta),
      * separadas por '#'. Caso o padrão exceda o tamanho da grade,
      * uma mensagem de erro é exibida.
      *
@@ -60,11 +63,29 @@ public class Grid {
     }
 
     /**
-     * Retorna o número de vizinhos vivos de uma célula dada, de acordo com o layout de vizinhança.
+     * Gera uma população inicial aleatória na grade.
+     * Cada célula tem 50% de chance de iniciar viva.
+     */
+    public void generateRandomPopulation() {
+        Random random = new Random();
+        for (int i = 0; i < line; i++) {
+            for (int j = 0; j < column; j++) {
+                // nextBoolean() retorna true ou false com equal probability
+                boolean isAlive = random.nextBoolean();
+                // Cria a célula diretamente com o estado sorteado
+                grid[i][j] = new Cell(isAlive);
+            }
+        }
+    }
+
+    /**
+     * Retorna o número de vizinhos vivos de uma célula dada, de acordo com o layout
+     * de vizinhança.
      *
      * @param x      A coordenada da linha da célula.
      * @param y      A coordenada da coluna da célula.
-     * @param layout O tipo de layout de vizinhança (1 a 5), que define quais células
+     * @param layout O tipo de layout de vizinhança (1 a 5), que define quais
+     *               células
      *               ao redor são consideradas vizinhas.
      * @return O número de vizinhos vivos da célula especificada.
      */
@@ -74,24 +95,24 @@ public class Grid {
 
         switch (layout) {
             case 1 -> {
-                dx = new int[]{0, 0, -1, 1};
-                dy = new int[]{-1, 1, 0, 0};
+                dx = new int[] { 0, 0, -1, 1 };
+                dy = new int[] { -1, 1, 0, 0 };
             }
             case 2 -> {
-                dx = new int[]{0, 0, -1, 1, 1, -1};
-                dy = new int[]{-1, 1, 0, 0, -1, 1};
+                dx = new int[] { 0, 0, -1, 1, 1, -1 };
+                dy = new int[] { -1, 1, 0, 0, -1, 1 };
             }
             case 3 -> {
-                dx = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
-                dy = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
+                dx = new int[] { -1, -1, -1, 0, 0, 1, 1, 1 };
+                dy = new int[] { -1, 0, 1, -1, 1, -1, 0, 1 };
             }
             case 4 -> {
-                dx = new int[]{-1, -1, 1, 1};
-                dy = new int[]{-1, 1, -1, 1};
+                dx = new int[] { -1, -1, 1, 1 };
+                dy = new int[] { -1, 1, -1, 1 };
             }
             case 5 -> {
-                dx = new int[]{-1, -1, 1, 1, -1, 1};
-                dy = new int[]{-1, 1, -1, 1, 0, 0};
+                dx = new int[] { -1, -1, 1, 1, -1, 1 };
+                dy = new int[] { -1, 1, -1, 1, 0, 0 };
             }
             default -> {
                 return 0;
@@ -134,21 +155,23 @@ public class Grid {
      * <p>
      * As regras aplicadas são:
      * <ul>
-     *   <li>Qualquer célula viva com menos de 2 vizinhos vivos morre (solidão).</li>
-     *   <li>Qualquer célula viva com 2 ou 3 vizinhos vivos sobrevive.</li>
-     *   <li>Qualquer célula viva com mais de 3 vizinhos vivos morre (superpopulação).</li>
-     *   <li>Qualquer célula morta com exatamente 3 vizinhos vivos torna-se viva (reprodução).</li>
+     * <li>Qualquer célula viva com menos de 2 vizinhos vivos morre (solidão).</li>
+     * <li>Qualquer célula viva com 2 ou 3 vizinhos vivos sobrevive.</li>
+     * <li>Qualquer célula viva com mais de 3 vizinhos vivos morre
+     * (superpopulação).</li>
+     * <li>Qualquer célula morta com exatamente 3 vizinhos vivos torna-se viva
+     * (reprodução).</li>
      * </ul>
      * Após determinar o próximo estado de cada célula, o estado atual é atualizado.
      *
      * @param layout O tipo de layout de vizinhança (1 a 5). Cada valor define um
      *               padrão diferente de células vizinhas a serem consideradas:
      *               <ul>
-     *                  <li>1 - Jala University (4 vizinhos ortogonais)</li>
-     *                  <li>2 - Programming 1 (6 vizinhos hexagonais)</li>
-     *                  <li>3 - Moore (8 vizinhos ao redor)</li>
-     *                  <li>4 - Reverse (4 vizinhos diagonais)</li>
-     *                  <li>5 - Custom Jala University (6 vizinhos mistos)</li>
+     *               <li>1 - Jala University (4 vizinhos ortogonais)</li>
+     *               <li>2 - Programming 1 (6 vizinhos hexagonais)</li>
+     *               <li>3 - Moore (8 vizinhos ao redor)</li>
+     *               <li>4 - Reverse (4 vizinhos diagonais)</li>
+     *               <li>5 - Custom Jala University (6 vizinhos mistos)</li>
      *               </ul>
      */
     public void updateGrid(int layout) {
