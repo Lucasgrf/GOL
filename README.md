@@ -30,6 +30,9 @@ O **Game of Life** é uma simulação baseada em autômatos celulares criada por
 3. **Qualquer célula viva com mais de 3 vizinhos vivos morre** (superpopulação).
 4. **Qualquer célula morta com exatamente 3 vizinhos vivos se torna viva** (reprodução).
 
+### Controles
+- **Espaço**: Pausar/Continuar a simulação.
+
 ---
 
 ## Parâmetros de Configuração
@@ -41,10 +44,10 @@ Os parâmetros podem ser passados via linha de comando no seguinte formato:
 
 ### Descrição dos Parâmetros
 
-- `w`: Largura da grid (Valores possíveis: 10, 20, 30, 40, 80)
-- `h`: Altura da grid (Valores possíveis: 10, 20, 40)
-- `g`: Número de gerações a serem simuladas
-- `s`: Velocidade (delay em milissegundos entre gerações)
+- `w`: Largura da grid (Qualquer valor inteiro >= 10 e <= 500)
+- `h`: Altura da grid (Qualquer valor inteiro >= 10 e <= 500)
+- `g`: Número de gerações a serem simuladas (0 ou não informado = Infinito)
+- `s`: Velocidade (delay em milissegundos entre gerações, min 10ms)
 - `n`: Tipo de vizinhança/layout (Valores possíveis: 1, 2, 3, 4, 5)
 - `p`: Padrão inicial de população, utilizando binários (0 = morta, 1 = viva)
   - Exemplo: `"010#101#010"` representa:
@@ -62,16 +65,28 @@ Os parâmetros podem ser passados via linha de comando no seguinte formato:
 
 ##### Default
 ```bash
-javac app/GameOfLife.java
+javac -d out src/app/GameOfLife.java src/config/GameOfLifeConfig.java src/dom/Cell.java src/dom/Grid.java src/render/SwingRenderer.java src/util/Check.java src/util/GameOfLifeRunner.java
 
-java app.GameOfLife w=20 h=10 g=50 s=500 n=3 p="010#101#000"
+java -cp out app.GameOfLife w=40 h=40 s=100 p="rnd" n=3
 ```
-##### Randomized
-```bash
-javac app/GameOfLife.java
 
-java app.GameOfLife w=20 h=10 g=50 s=500 n=3 p="rnd"
-```
+### Executando com Maven
+
+Se preferir, você pode compilar e rodar usando o Maven:
+
+1. **Compilar e criar o JAR:**
+   ```bash
+   mvn clean package
+   ```
+
+2. **Rodar o JAR gerado:**
+   ```bash
+   # Exemplo Randomizado
+   java -jar target/game-of-life-1.0-SNAPSHOT.jar w=50 h=50 s=50 p="rnd"
+
+   # Exemplo com Padrão Manual
+   java -jar target/game-of-life-1.0-SNAPSHOT.jar w=20 h=20 s=200 p="010#101#010"
+   ```
 
 
 
